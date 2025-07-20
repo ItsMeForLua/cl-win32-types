@@ -24,7 +24,7 @@ jobs:
           asdf-system: cl-win32-types
 
       - name: Install Dependencies & Run Tests
-        shell: bash
+        shell: lispsh -eo pipefail {0}
         run: |
           ros install fiveam
           ros --eval "(asdf:test-system :cl-win32-types)" --quit
