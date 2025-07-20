@@ -1,0 +1,25 @@
+# Compiled Lisp files
+*.fasl
+*.p
+*.dll
+*.so
+*.exe
+*.image
+
+# Editor backup files
+*~
+*.bak
+#*#
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Roswell
+.roswell/
+
+# ASDF cache
+/asdf-cache/
+
+# Qlot local dependencies
+/.qlot/

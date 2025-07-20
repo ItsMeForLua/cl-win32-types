@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  test:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Common Lisp
+        uses: 40ants/setup-lisp@v4
+
+      - name: Install SBCL latest
+        shell: bash
+        run: |
+          ros config set sbcl-bin.version 2.5.6
+          ros install sbcl-bin
+      
+      - name: Install Dependencies & Run Tests
+        shell: bash
+        run: |
+          ros install fiveam
+          ros --eval "(asdf:test-system :cl-win32-types)" --quit
