@@ -23,3 +23,5 @@ Thumbs.db
 
 # Qlot local dependencies
 /.qlot/
+
+/.vscode/
