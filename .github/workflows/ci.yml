@@ -9,20 +9,20 @@ on:
 jobs:
   test:
     runs-on: windows-latest
+    
+    env:
+      LISP: sbcl-bin
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # This single step sets up Roswell AND installs SBCL
       - name: Setup Common Lisp
         uses: 40ants/setup-lisp@v4
+        with:
+          asdf-system: cl-win32-types
 
-      - name: Install SBCL latest
-        shell: bash
-        run: |
-          ros config set sbcl-bin.version 2.5.6
-          ros install sbcl-bin
-      
       - name: Install Dependencies & Run Tests
         shell: bash
         run: |
