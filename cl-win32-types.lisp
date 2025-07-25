@@ -19,7 +19,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
- |#
+|#
 
 (defpackage #:cl-win32-types
   (:use #:cl #:cffi)
@@ -34,8 +34,9 @@ SOFTWARE.
    #:handle #:pvoid #:win-atom #:hinstance #:hwnd #:hdc #:hicon #:hbrush #:hfont
    #:hmodule #:sc_handle #:hresult #:langid #:lcid #:colorref
 
-   ;; String Pointer Types
-   #:lpstr #:lpcstr #:lpwstr #:lpcwstr #:pwchar #:pwstr
+   ;; Explicit Pointer Types (LP = Long Pointer)
+   #:lpdword #:lpwstr #:lpcwstr #:lpstr #:lpcstr #:pwchar #:pwstr
+   #:lphandle #:lpvoid
 
    ;; Platform-Dependent Pointer-Sized Types
    #:int_ptr #:uint_ptr #:dword_ptr #:ulong_ptr))
@@ -90,33 +91,20 @@ SOFTWARE.
 (defctype sc_handle handle)
 
 ;;;--------------------------------------------------------------------------
-;;; String Pointer Types (LP = Long Pointer)
+;;; Explicit Pointer Types (LP = Long Pointer)
 ;;;--------------------------------------------------------------------------
 
-(defctype lpstr   :pointer)
-(defctype lpcstr  :pointer)
-(defctype lpwstr  :pointer)
-(defctype lpcwstr :pointer)
-(defctype pwchar  :pointer)
-(defctype pwstr   :pointer)
+(defctype lpdword   :pointer) ; Pointer to a DWORD
+(defctype lphandle  :pointer) ; Pointer to a HANDLE
+(defctype lpvoid    :pointer) ; Pointer to void (generic pointer)
 
-;;;--------------------------------------------------------------------------
-;;; Platform-Dependent Pointer-Sized Types
-;;;--------------------------------------------------------------------------
-
-#+(and (or :win32 :windows) :32-bit)
-(progn
-  (defctype dword_ptr :uint32)
-  (defctype int_ptr   :int32)
-  (defctype uint_ptr  :uint32)
-  (defctype ulong_ptr :uint32))
-
-#+(and (or :win32 :windows) :64-bit)
-(progn
-  (defctype dword_ptr :uint64)
-  (defctype int_ptr   :int64)
-  (defctype uint_ptr  :uint64)
-  (defctype ulong_ptr :uint64))
+;; String pointer types
+(defctype lpstr     :string)  ; Pointer to an ANSI string
+(defctype lpcstr    :string)  ; Pointer to a constant ANSI string
+(defctype lpwstr    :pointer) ; Pointer to a wide (Unicode) string. Use :pointer for manual management.
+(defctype lpcwstr   :pointer) ; Pointer to a constant wide (Unicode) string. Use :pointer for manual management.
+(defctype pwchar    :pointer) ; Pointer to a WCHAR
+(defctype pwstr     :pointer) ; Pointer to a wide (Unicode) string
 
 ;;;--------------------------------------------------------------------------
 ;;; Platform-Dependent Pointer-Sized Types
